@@ -1,15 +1,13 @@
 import 'react-native-gesture-handler';
 
 import * as React from 'react';
-import { AppRegistry, ImageBackground, StyleSheet } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { AppRegistry } from 'react-native';
+
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import App from './src/app/App';
 import { name as appName } from './app.json';
-
-const backgroungImg = './src/assets/backgroung.png';
 
 const theme = {
 	...DefaultTheme,
@@ -21,7 +19,7 @@ const theme = {
 		background: '#000000',
 	},
 };
-
+// app entry point 
 export default function Main() {
 	return (
 		<PaperProvider
@@ -29,21 +27,9 @@ export default function Main() {
 			settings={{
 				icon: props => <Ionicons {...props} />,
 			}}>
-			<NavigationContainer>
-				<ImageBackground source={require(backgroungImg)} style={style.image}>
-					<App />
-				</ImageBackground>
-			</NavigationContainer>
+			<App />
 		</PaperProvider>
 	);
 }
-
-const style = StyleSheet.create({
-	image: {
-		flex: 1,
-		resizeMode: 'cover',
-		justifyContent: 'center',
-	},
-});
 
 AppRegistry.registerComponent(appName, () => Main);

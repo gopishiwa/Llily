@@ -12,7 +12,7 @@ import {
 	appId,
 	measurementId,
 } from './enviroment.config';
-
+// firebase configuration file
 const firebaseConfig = {
 	apiKey: apiKey,
 	authDomain: authDomain,
