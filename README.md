@@ -8,6 +8,6 @@ cd Llily
 npm install
 touch .env
 # add the api key from firebase in the .env file 
-npm start 
+npm start
 npm run android
 ```
