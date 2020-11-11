@@ -5,13 +5,22 @@ import { Appbar } from 'react-native-paper';
 export default function StatusBar({ navigation, title, subtitle, backScreen }) {
 	return (
 		<Appbar.Header>
-			{navigation ? <Appbar.BackAction onPress={() => navigation.navigate(backScreen)} /> : ''}
+			{navigation ? (
+				<Appbar.BackAction onPress={() => navigation.navigate(backScreen)} />
+			) : (
+				''
+			)}
 			<Appbar.Content
-				title={title ? title : ''}
-				subtitle={subtitle ? subtitle : ''}
+				title={title}
+				subtitle={subtitle}
+				titleStyle={style.title}
 			/>
 		</Appbar.Header>
 	);
 }
 
-const style = StyleSheet.create({});
+const style = StyleSheet.create({
+	title: {
+		fontSize: 20,
+	},
+});

@@ -2,27 +2,25 @@ import React from 'react';
 import { View, StyleSheet, Text, ImageBackground } from 'react-native';
 import { Button } from 'react-native-paper';
 
-const backgroundImgPath = '../../assets/background.png';
+import WideBtn from '../components/WideBtn';
+
 // Welcome Screen initial screen when the app first starts
 export default function WelcomeScreen({ navigation }) {
 	return (
 		<View>
-			<Button
-				icon="key"
-				mode="contained"
-				style={style.btnLogin}
-				labelStyle={style.btnText}
-				onPress={() => navigation.navigate('Login')}>
-				log in
-			</Button>
-			<Button
-				icon="person"
-				mode="contained"
-				style={style.btnRegister}
-				labelStyle={style.btnText}
-				onPress={() => navigation.navigate('Register')}>
-				register
-			</Button>
+			<Text style={style.welcomeText}>Welcome!</Text>
+			<WideBtn
+				name={'login'}
+				icon={'key'}
+				onPress={() => navigation.navigate('Login')}
+				btnStyle={style.btnLogin}
+			/>
+			<WideBtn
+				name={'register'}
+				icon={'person'}
+				onPress={() => navigation.navigate('Register')}
+				btnStyle={style.btnRegister}
+			/>
 		</View>
 	);
 }
@@ -30,23 +28,22 @@ export default function WelcomeScreen({ navigation }) {
 const style = StyleSheet.create({
 	btnLogin: {
 		position: 'absolute',
-		width: 298,
-		height: 62,
-		left: 52,
+		left: 50,
 		top: 568,
 	},
 	btnRegister: {
 		position: 'absolute',
-		width: 298,
-		height: 62,
-		left: 52,
-		top: 666,
+		left: 50,
+		top: 650,
 	},
-	btnText: {
+	welcomeText: {
+		position: 'absolute',
 		fontFamily: 'SF Pro Text',
 		fontStyle: 'normal',
-		fontSize: 20,
+		fontSize: 50,
+		color: '#ffffff',
 		fontWeight: '600',
-		textAlign: 'center',
+		left: 50,
+		top: 100,
 	},
 });

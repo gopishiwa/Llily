@@ -16,7 +16,7 @@ const theme = {
 		...DefaultTheme.colors,
 		primary: '#644999',
 		accent: '#f1c40f',
-		background: '#000000',
+		background: '#ffffff',
 	},
 };
 // app entry point 
