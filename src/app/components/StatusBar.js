@@ -4,11 +4,14 @@ import { Appbar } from 'react-native-paper';
 // StatusBar component for app
 export default function StatusBar({ navigation, title, subtitle, backScreen }) {
 	return (
-		<Appbar.Header>
+		<Appbar.Header style={style.header}>
 			{navigation ? (
-				<Appbar.BackAction onPress={() => navigation.navigate(backScreen)} />
+				<Appbar.BackAction
+					onPress={() => navigation.navigate(backScreen)}
+					color={'#644999'}
+				/>
 			) : (
-				''
+				{}
 			)}
 			<Appbar.Content
 				title={title}
@@ -22,5 +25,8 @@ export default function StatusBar({ navigation, title, subtitle, backScreen }) {
 const style = StyleSheet.create({
 	title: {
 		fontSize: 20,
+	},
+	header: {
+		backgroundColor: 'rgba(0, 0, 0, 0)',
 	},
 });

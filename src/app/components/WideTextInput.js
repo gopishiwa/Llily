@@ -1,5 +1,6 @@
 import React from 'react';
-import { TextInput } from 'react-native';
+import {TextImport } from 'react-native-paper';
+
 
 export default function WideTextInput() {
 	return;

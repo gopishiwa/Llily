@@ -7,7 +7,7 @@ import WideBtn from '../components/WideBtn';
 // Welcome Screen initial screen when the app first starts
 export default function WelcomeScreen({ navigation }) {
 	return (
-		<View>
+		<View style={{ flex: 1 }}>
 			<Text style={style.welcomeText}>Welcome!</Text>
 			<WideBtn
 				name={'login'}
@@ -27,17 +27,16 @@ export default function WelcomeScreen({ navigation }) {
 
 const style = StyleSheet.create({
 	btnLogin: {
-		position: 'absolute',
 		left: 50,
-		top: 568,
+		width: 300,
+		height: 60,
 	},
 	btnRegister: {
-		position: 'absolute',
 		left: 50,
-		top: 650,
+		width: 300,
+		height: 60,
 	},
 	welcomeText: {
-		position: 'absolute',
 		fontFamily: 'SF Pro Text',
 		fontStyle: 'normal',
 		fontSize: 50,
