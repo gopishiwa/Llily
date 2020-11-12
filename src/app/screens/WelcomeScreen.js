@@ -5,9 +5,9 @@ import { Button } from 'react-native-paper';
 import WideBtn from '../components/WideBtn';
 
 // Welcome Screen initial screen when the app first starts
-export default function WelcomeScreen({ navigation }) {
+export default function WelcomeScreen({ navigation, user }) {
 	return (
-		<View style={{ flex: 1 }}>
+		<View style={{ flex: 1, justifyContent: 'center', left: 50 }}>
 			<Text style={style.welcomeText}>Welcome!</Text>
 			<WideBtn
 				name={'login'}
@@ -27,22 +27,18 @@ export default function WelcomeScreen({ navigation }) {
 
 const style = StyleSheet.create({
 	btnLogin: {
-		left: 50,
 		width: 300,
 		height: 60,
+		marginBottom: 20,
 	},
 	btnRegister: {
-		left: 50,
 		width: 300,
 		height: 60,
 	},
 	welcomeText: {
-		fontFamily: 'SF Pro Text',
-		fontStyle: 'normal',
 		fontSize: 50,
 		color: '#ffffff',
 		fontWeight: '600',
-		left: 50,
-		top: 100,
+		marginBottom: 350,
 	},
 });

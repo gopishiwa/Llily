@@ -20,8 +20,6 @@ export default function WideBtn({ icon, onPress, name, btnStyle, disable }) {
 
 const style = StyleSheet.create({
 	btnText: {
-		fontFamily: 'SF Pro Text',
-		fontStyle: 'normal',
 		fontSize: 20,
 		textAlign: 'center',
 		textTransform: 'capitalize',

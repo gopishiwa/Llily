@@ -1,59 +1,105 @@
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Button, TextInput } from 'react-native-paper';
+import {
+	View,
+	Text,
+	StyleSheet,
+	ScrollView,
+	KeyboardAvoidingView,
+	Keyboard,
+	TouchableWithoutFeedback,
+} from 'react-native';
+import { TextInput, HelperText } from 'react-native-paper';
 
 import StatusBar from '../components/StatusBar';
 import WideBtn from '../components/WideBtn';
-// Register Screen for register new accounts
-export default function RegisterScreen({ navigation }) {
-	const [userName, setUserName] = useState('');
-	const [number, setNumber] = useState('');
+import WideTextInput from '../components/WideTextInput';
+
+// Login Screen for login
+export default function RegisterScreen({ navigation, user }) {
+	const {
+		userName,
+		setUserName,
+		number,
+		setNumber,
+		hasLetter,
+		hasSpecialChar,
+	} = user;
+
 	return (
 		<>
 			<StatusBar navigation={navigation} backScreen={'Welcome'} />
-			<TextInput
-				label={'Username'}
-				placeholder={'Enter Username'}
-				mode={'outlined'}
-				onChangeText={text => setUserName(text)}
-				style={style.userName}
-			/>
-			<TextInput
-				label={'Phone Number'}
-				placeholder={'Enter Phone Number'}
-				mode={'outlined'}
-				keyboardType={'number-pad'}
-				onChangeText={text => setNumber(text)}
-				style={style.number}></TextInput>
-			<WideBtn
-				name={'Register'}
-				icon={'person'}
-				btnStyle={style.btnLogin}
-				disable={userName && number ? false : true}
-			/>
+			<KeyboardAvoidingView style={{ flex: 1 }}>
+				<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+					<View style={style.inner}>
+						<Text style={style.text}>Register!</Text>
+						<WideTextInput
+							label={'Username'}
+							placeholder={'Enter Username'}
+							icon={'person-outline'}
+							setText={setUserName}
+							style={style.userName}
+							hasError={hasSpecialChar}
+							text={'Invalid Username'}
+						/>
+						<WideTextInput
+							label={'Phone Number'}
+							placeholder={'Enter Phone Number'}
+							icon={'call-outline'}
+							setText={setNumber}
+							keyboardType={'phone-pad'}
+							style={style.number}
+							hasError={hasLetter}
+							text={'Invalid Phone Number'}
+						/>
+
+						<WideBtn
+							name={'register'}
+							icon={'person'}
+							btnStyle={style.btnRegister}
+							disable={
+								false /*
+								userName && number && !hasLetter() && !hasSpecialChar()
+									? false
+									: true 
+								*/
+							}
+							onPress={() => navigation.navigate('OptVerification')}
+						/>
+					</View>
+				</TouchableWithoutFeedback>
+			</KeyboardAvoidingView>
 		</>
 	);
 }
 
 const style = StyleSheet.create({
+	inner: {
+		flex: 1,
+		justifyContent: 'center',
+		left: 50,
+	},
 	userName: {
-		position: 'absolute',
 		width: 300,
 		height: 60,
-		left: 50,
-		top: 450,
 	},
 	number: {
-		position: 'absolute',
 		width: 300,
 		height: 60,
-		left: 50,
-		top: 530,
-		borderColor: '#644999',
 	},
-	btnLogin: {
+	btnRegister: {
+		width: 300,
+		height: 60,
+		marginTop: 10,
+	},
+	statusBar: {
+		backgroundColor: 'rgba(0, 0, 0, 0)',
+		color: '#000000',
 		position: 'absolute',
-		left: 50,
-		top: 650,
+	},
+	text: {
+		fontSize: 50,
+		color: '#ffffff',
+		fontWeight: '600',
+		marginBottom: 300,
 	},
 });

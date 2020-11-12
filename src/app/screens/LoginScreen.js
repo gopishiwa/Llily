@@ -12,19 +12,18 @@ import { TextInput, HelperText } from 'react-native-paper';
 
 import StatusBar from '../components/StatusBar';
 import WideBtn from '../components/WideBtn';
+import WideTextInput from '../components/WideTextInput';
 
 // Login Screen for login
-export default function LoginScreen({ navigation }) {
-	const [userName, setUserName] = useState('');
-	const [number, setNumber] = useState('');
-
-	function hasLetter() {
-		return !number.match(/\D/) ? false : true;
-	}
-
-	function hasSpecialChar() {
-		return false;
-	}
+export default function LoginScreen({ navigation, user }) {
+	const {
+		userName,
+		setUserName,
+		number,
+		setNumber,
+		hasLetter,
+		hasSpecialChar,
+	} = user;
 
 	return (
 		<>
@@ -33,45 +32,38 @@ export default function LoginScreen({ navigation }) {
 				<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 					<View style={style.inner}>
 						<Text style={style.text}>Log In!</Text>
-						<TextInput
-							value={userName}
+						<WideTextInput
 							label={'Username'}
 							placeholder={'Enter Username'}
-							mode={'outlined'}
-							onChangeText={text => setUserName(text)}
+							icon={'person-outline'}
+							setText={setUserName}
 							style={style.userName}
+							hasError={hasSpecialChar}
+							text={'Invalid Username'}
 						/>
-						<HelperText
-							type={'error'}
-							visible={hasSpecialChar()}
-							style={{ left: 50 }}>
-							Invalid Username
-						</HelperText>
-						<TextInput
-							value={number}
+						<WideTextInput
 							label={'Phone Number'}
 							placeholder={'Enter Phone Number'}
-							mode={'outlined'}
+							icon={'call-outline'}
+							setText={setNumber}
 							keyboardType={'phone-pad'}
-							onChangeText={text => setNumber(text)}
 							style={style.number}
+							hasError={hasLetter}
+							text={'Invalid Phone Number'}
 						/>
-						<HelperText
-							type={'error'}
-							visible={hasLetter()}
-							style={{ left: 50 }}>
-							Invalid Phone Number.
-						</HelperText>
+
 						<WideBtn
 							name={'login'}
 							icon={'key'}
 							btnStyle={style.btnLogin}
 							disable={
-								userName && number && (!hasLetter() || !hasSpecialChar())
+								userName && number && !hasLetter() && !hasSpecialChar()
 									? false
 									: true
 							}
-							onPress={() => console.log('pressed login')}
+							onPress={() =>
+								console.log(`Username: ${userName}, Phone: ${number}`)
+							}
 						/>
 					</View>
 				</TouchableWithoutFeedback>
@@ -83,35 +75,31 @@ export default function LoginScreen({ navigation }) {
 const style = StyleSheet.create({
 	inner: {
 		flex: 1,
-		justifyContent: 'space-around',
+		justifyContent: 'center',
+		left: 50,
 	},
 	userName: {
 		width: 300,
 		height: 60,
-		left: 50,
-		marginBottom: 0,
 	},
 	number: {
 		width: 300,
 		height: 60,
-		left: 50,
-		marginBottom: 0,
 	},
 	btnLogin: {
-		position: 'relative',
-		left: 50,
+		width: 300,
+		height: 60,
+		marginTop: 10,
 	},
 	statusBar: {
 		backgroundColor: 'rgba(0, 0, 0, 0)',
 		color: '#000000',
+		position: 'absolute',
 	},
 	text: {
-		fontFamily: 'SF Pro Text',
-		fontStyle: 'normal',
 		fontSize: 50,
 		color: '#ffffff',
 		fontWeight: '600',
-		marginTop: 0,
-		left: 50,
+		marginBottom: 300,
 	},
 });
