@@ -1,6 +1,5 @@
 import React from 'react';
 import { TextInput, HelperText } from 'react-native-paper';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default function WideTextInput({
 	setText,

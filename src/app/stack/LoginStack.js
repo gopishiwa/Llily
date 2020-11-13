@@ -12,7 +12,7 @@ import { StackActions } from '@react-navigation/native';
 
 const Stack = createStackNavigator();
 //Login Stack for management of the conected screens for login and register
-export default function LoginStack({ user }) {
+export default function LoginStack({ user, signIn }) {
 	return (
 		<ImageBackground
 			source={require('../../assets/background.png')}
@@ -20,20 +20,42 @@ export default function LoginStack({ user }) {
 			<Stack.Navigator
 				initialRouteName="Welcome"
 				headerMode="none"
-				screenOptions={{
-					cardStyle: { backgroundColor: 'transparent' },
-				}}>
+				screenOptions={{}}>
 				<Stack.Screen name="Welcome">
-					{props => <WelcomeScreen {...props} user={user} />}
+					{props => (
+						<ImageBackground
+							source={require('../../assets/background.png')}
+							style={style.image}>
+							<WelcomeScreen {...props} user={user} />
+						</ImageBackground>
+					)}
 				</Stack.Screen>
 				<Stack.Screen name="Login">
-					{props => <LoginScreen {...props} user={user} />}
+					{props => (
+						<ImageBackground
+							source={require('../../assets/background.png')}
+							style={style.image}>
+							<LoginScreen {...props} user={user} />
+						</ImageBackground>
+					)}
 				</Stack.Screen>
 				<Stack.Screen name="Register">
-					{props => <RegisterScreen {...props} user={user} />}
+					{props => (
+						<ImageBackground
+							source={require('../../assets/background.png')}
+							style={style.image}>
+							<RegisterScreen {...props} user={user} />
+						</ImageBackground>
+					)}
 				</Stack.Screen>
 				<Stack.Screen name="OptVerification">
-					{props => <OptVerificationScreen {...props} user={user} />}
+					{props => (
+						<ImageBackground
+							source={require('../../assets/background.png')}
+							style={style.image}>
+							<OptVerificationScreen {...props} user={user} signIn={signIn} />
+						</ImageBackground>
+					)}
 				</Stack.Screen>
 			</Stack.Navigator>
 		</ImageBackground>

@@ -16,31 +16,16 @@ import WideTextInput from '../components/WideTextInput';
 
 // Login Screen for login
 export default function RegisterScreen({ navigation, user }) {
-	const {
-		userName,
-		setUserName,
-		number,
-		setNumber,
-		hasLetter,
-		hasSpecialChar,
-	} = user;
+	const { number, setNumber, hasLetter } = user;
 
 	return (
 		<>
-			<StatusBar navigation={navigation} backScreen={'Welcome'} />
+			<StatusBar navigation={navigation} resetHook={setNumber} />
 			<KeyboardAvoidingView style={{ flex: 1 }}>
 				<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 					<View style={style.inner}>
 						<Text style={style.text}>Register!</Text>
-						<WideTextInput
-							label={'Username'}
-							placeholder={'Enter Username'}
-							icon={'person-outline'}
-							setText={setUserName}
-							style={style.userName}
-							hasError={hasSpecialChar}
-							text={'Invalid Username'}
-						/>
+
 						<WideTextInput
 							label={'Phone Number'}
 							placeholder={'Enter Phone Number'}
@@ -56,13 +41,7 @@ export default function RegisterScreen({ navigation, user }) {
 							name={'register'}
 							icon={'person'}
 							btnStyle={style.btnRegister}
-							disable={
-								false /*
-								userName && number && !hasLetter() && !hasSpecialChar()
-									? false
-									: true 
-								*/
-							}
+							disable={number && !hasLetter() ? false : true}
 							onPress={() => navigation.navigate('OptVerification')}
 						/>
 					</View>
@@ -78,10 +57,6 @@ const style = StyleSheet.create({
 		justifyContent: 'center',
 		left: 50,
 	},
-	userName: {
-		width: 300,
-		height: 60,
-	},
 	number: {
 		width: 300,
 		height: 60,
@@ -89,7 +64,6 @@ const style = StyleSheet.create({
 	btnRegister: {
 		width: 300,
 		height: 60,
-		marginTop: 10,
 	},
 	statusBar: {
 		backgroundColor: 'rgba(0, 0, 0, 0)',
@@ -100,6 +74,6 @@ const style = StyleSheet.create({
 		fontSize: 50,
 		color: '#ffffff',
 		fontWeight: '600',
-		marginBottom: 300,
+		marginBottom: 395,
 	},
 });

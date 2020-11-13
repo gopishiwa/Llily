@@ -2,12 +2,15 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Appbar } from 'react-native-paper';
 // StatusBar component for app
-export default function StatusBar({ navigation, title, subtitle, backScreen }) {
+export default function StatusBar({ navigation, title, subtitle, resetHook }) {
 	return (
 		<Appbar.Header style={style.header}>
 			{navigation ? (
 				<Appbar.BackAction
-					onPress={() => navigation.navigate(backScreen)}
+					onPress={() => {
+						resetHook('');
+						navigation.goBack();
+					}}
 					color={'#644999'}
 				/>
 			) : (

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
 	View,
 	Text,
@@ -12,19 +12,31 @@ import StatusBar from '../components/StatusBar';
 import WideTextInput from '../components/WideTextInput';
 import WideBtn from '../components/WideBtn';
 
+var isLoading = true;
+
 //OPT verification screen to enter the OPT Verification code
-export default function OptVerificationScreen({ navigation, user }) {
-	const {
-		userName,
-		setUserName,
-		number,
-		setNumber,
-		hasLetter,
-		hasSpecialChar,
-	} = user;
+export default function OptVerificationScreen({ navigation, user, signIn }) {
+	const { number } = user;
+	const { code, setCode, signInwithNumber, confirmCode } = signIn;
+	const hasLetter = () => {
+		return !code.match(/\D/) ? false : true;
+	};
+	async function signInCall() {
+		try {
+			await signInwithNumber(number);
+			isLoading = false;
+		} catch (err) {
+			isLoading = false;
+			throw new Error('Sign in error');
+		}
+	}
+
+	useEffect(() => {
+		signInCall();
+	}, []);
 	return (
 		<>
-			<StatusBar navigation={navigation} backScreen={'Welcome'} />
+			<StatusBar navigation={navigation} resetHook={setCode} />
 			<KeyboardAvoidingView style={{ flex: 1 }}>
 				<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 					<View style={style.inner}>
@@ -32,18 +44,19 @@ export default function OptVerificationScreen({ navigation, user }) {
 						<WideTextInput
 							label={'Verification code'}
 							placeholder={'Enter Code'}
-							setText={() => console.log()}
-							style={style.userName}
+							setText={setCode}
+							style={style.optCode}
 							hasError={hasLetter}
-							text={'Invalid Username'}
+							text={'Invalid Code'}
 						/>
 
 						<WideBtn
 							name={'Verify'}
 							icon={'key'}
 							btnStyle={style.btnLogin}
-							disable={false}
-							onPress={() => navigation.navigate('Register')}
+							disable={code && !hasLetter() && !isLoading ? false : true}
+							onPress={() => confirmCode()}
+							loading={isLoading}
 						/>
 					</View>
 				</TouchableWithoutFeedback>
@@ -58,7 +71,7 @@ const style = StyleSheet.create({
 		justifyContent: 'center',
 		left: 50,
 	},
-	userName: {
+	optCode: {
 		width: 300,
 		height: 60,
 	},
@@ -76,9 +89,9 @@ const style = StyleSheet.create({
 		position: 'absolute',
 	},
 	text: {
-		fontSize: 20,
+		fontSize: 40,
 		color: '#ffffff',
 		fontWeight: '600',
-		marginBottom: 300,
+		marginBottom: 395,
 	},
 });

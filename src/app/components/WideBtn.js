@@ -2,7 +2,14 @@ import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { Button } from 'react-native-paper';
 
-export default function WideBtn({ icon, onPress, name, btnStyle, disable }) {
+export default function WideBtn({
+	icon,
+	onPress,
+	name,
+	btnStyle,
+	disable,
+	loading,
+}) {
 	return (
 		<Button
 			uppercase={false}
@@ -12,7 +19,8 @@ export default function WideBtn({ icon, onPress, name, btnStyle, disable }) {
 			contentStyle={{ width: 300, height: 60 }}
 			labelStyle={style.btnText}
 			style={btnStyle}
-			disabled={disable}>
+			disabled={disable}
+			loading={loading ? true : false}>
 			{name}
 		</Button>
 	);

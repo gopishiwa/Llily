@@ -7,9 +7,13 @@ export default function useSignIn({}) {
 
 	const signInwithNumber = async number => {
 		try {
-			const conformation = await auth().signInWithPhoneNumber(number);
+			if (number.startsWith('0')) {
+				number.replace('0', '');
+			}
+			const conformation = await auth().signInWithPhoneNumber(`+61${number}`);
 			setConfirm(conformation);
 		} catch (err) {
+			console.log(err);
 			throw new Error('Signin Failed');
 		}
 	};
@@ -22,5 +26,5 @@ export default function useSignIn({}) {
 		}
 	};
 
-	return [confirm, setCode, signInwithNumber, confirmCode];
+	return [code, setCode, signInwithNumber, confirmCode];
 }

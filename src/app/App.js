@@ -1,5 +1,4 @@
 import React from 'react';
-import { View, Text, ImageBackground, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 
 import LoginStack from './stack/LoginStack';
@@ -7,28 +6,17 @@ import LoginStack from './stack/LoginStack';
 import firebase from '../common/config/firebase.config';
 
 import useUser from '../common/hooks/useUser';
+import useSignIn from '../common/hooks/useSignIn';
 
 export default function App() {
-	const [
-		userName,
-		setUserName,
-		number,
-		setNumber,
-		hasLetter,
-		hasSpecialChar,
-	] = useUser('');
+	const [number, setNumber, hasLetter] = useUser('');
+	const [code, setCode, signInwithNumber, confirmCode] = useSignIn('');
 	return (
 		<>
 			<NavigationContainer>
 				<LoginStack
-					user={{
-						userName,
-						setUserName,
-						number,
-						setNumber,
-						hasLetter,
-						hasSpecialChar,
-					}}
+					user={{ number, setNumber, hasLetter }}
+					signIn={{ code, setCode, signInwithNumber, confirmCode }}
 				/>
 			</NavigationContainer>
 		</>
