@@ -12,12 +12,10 @@ import StatusBar from '../components/StatusBar';
 import WideTextInput from '../components/WideTextInput';
 import WideBtn from '../components/WideBtn';
 
-var isLoading = true;
-
 //OPT verification screen to enter the OPT Verification code
 export default function OptVerificationScreen({ navigation, user, signIn }) {
 	const { number } = user;
-	const { code, setCode, signInwithNumber, confirmCode } = signIn;
+	const { code, isLoading, setCode, signInwithNumber, confirmCode } = signIn;
 	const hasLetter = () => {
 		return !code.match(/\D/) ? false : true;
 	};
@@ -25,9 +23,8 @@ export default function OptVerificationScreen({ navigation, user, signIn }) {
 		try {
 			console.log(number);
 			await signInwithNumber(number);
-			isLoading = false;
 		} catch (err) {
-			isLoading = false;
+			console.error(err);
 			throw new Error('Sign in error');
 		}
 	}
@@ -49,6 +46,7 @@ export default function OptVerificationScreen({ navigation, user, signIn }) {
 							style={style.optCode}
 							hasError={hasLetter}
 							text={'Invalid Code'}
+							keyboardType={'numeric'}
 						/>
 
 						<WideBtn

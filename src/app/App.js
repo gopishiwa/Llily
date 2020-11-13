@@ -10,13 +10,15 @@ import useSignIn from '../common/hooks/useSignIn';
 
 export default function App() {
 	const [number, setNumber, hasLetter] = useUser('');
-	const [code, setCode, signInwithNumber, confirmCode] = useSignIn('');
+	const [code, isLoading, setCode, signInwithNumber, confirmCode] = useSignIn(
+		''
+	);
 	return (
 		<>
 			<NavigationContainer>
 				<LoginStack
 					user={{ number, setNumber, hasLetter }}
-					signIn={{ code, setCode, signInwithNumber, confirmCode }}
+					signIn={{ code, isLoading, setCode, signInwithNumber, confirmCode }}
 				/>
 			</NavigationContainer>
 		</>
