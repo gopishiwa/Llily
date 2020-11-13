@@ -23,6 +23,7 @@ export default function OptVerificationScreen({ navigation, user, signIn }) {
 	};
 	async function signInCall() {
 		try {
+			console.log(number);
 			await signInwithNumber(number);
 			isLoading = false;
 		} catch (err) {

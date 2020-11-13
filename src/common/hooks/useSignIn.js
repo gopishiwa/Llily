@@ -12,6 +12,7 @@ export default function useSignIn({}) {
 			}
 			const conformation = await auth().signInWithPhoneNumber(`+61${number}`);
 			setConfirm(conformation);
+			console.log(confirm);
 		} catch (err) {
 			console.log(err);
 			throw new Error('Signin Failed');
@@ -21,6 +22,7 @@ export default function useSignIn({}) {
 	const confirmCode = async () => {
 		try {
 			await confirm.confirm(code);
+			console.log(confirm);
 		} catch (err) {
 			throw new Error('Invalid code');
 		}
