@@ -28,8 +28,9 @@ export default function StatusBar({ navigation, title, subtitle, resetHook }) {
 const style = StyleSheet.create({
 	title: {
 		fontSize: 20,
+		color: '#644999',
 	},
 	header: {
-		backgroundColor: 'rgba(0, 0, 0, 0)',
+		backgroundColor: '#ffffff',
 	},
 });

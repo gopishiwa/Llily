@@ -14,7 +14,7 @@ import WideBtn from '../components/WideBtn';
 
 //OPT verification screen to enter the OPT Verification code
 export default function OptVerificationScreen({ navigation, user, signIn }) {
-	const { number } = user;
+	const { number, setNumber, isUser, isGetting, setUser, removeUser } = user;
 	const { code, isLoading, setCode, signInwithNumber, confirmCode } = signIn;
 	const hasLetter = () => {
 		return !code.match(/\D/) ? false : true;
@@ -25,6 +25,7 @@ export default function OptVerificationScreen({ navigation, user, signIn }) {
 			await signInwithNumber(number);
 		} catch (err) {
 			console.error(err);
+			navigation.goBack();
 			throw new Error('Sign in error');
 		}
 	}
@@ -34,7 +35,11 @@ export default function OptVerificationScreen({ navigation, user, signIn }) {
 	}, []);
 	return (
 		<>
-			<StatusBar navigation={navigation} resetHook={setCode} />
+			<StatusBar
+				title={'OPT Verification'}
+				navigation={navigation}
+				resetHook={setCode}
+			/>
 			<KeyboardAvoidingView style={{ flex: 1 }}>
 				<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 					<View style={style.inner}>
@@ -54,7 +59,13 @@ export default function OptVerificationScreen({ navigation, user, signIn }) {
 							icon={'key'}
 							btnStyle={style.btnLogin}
 							disable={code && !hasLetter() && !isLoading ? false : true}
-							onPress={() => confirmCode()}
+							onPress={async () => {
+								const [isError, confirm]= await confirmCode();
+								if (!isError) {
+									console.log(code);
+									setUser(confirm);
+								}
+							}}
 							loading={isLoading}
 						/>
 					</View>
@@ -68,7 +79,7 @@ const style = StyleSheet.create({
 	inner: {
 		flex: 1,
 		justifyContent: 'center',
-		left: 50,
+		left: '13%',
 	},
 	optCode: {
 		width: 300,
@@ -81,11 +92,6 @@ const style = StyleSheet.create({
 	btnLogin: {
 		width: 300,
 		height: 60,
-	},
-	statusBar: {
-		backgroundColor: 'rgba(0, 0, 0, 0)',
-		color: '#000000',
-		position: 'absolute',
 	},
 	text: {
 		fontSize: 40,

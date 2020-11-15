@@ -7,58 +7,51 @@ import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import OptVerificationScreen from '../screens/OptVerificationScreen';
 
-import BackgroundImg from '../components/BackgroundImg';
-import { StackActions } from '@react-navigation/native';
-
 const Stack = createStackNavigator();
 //Login Stack for management of the conected screens for login and register
 export default function LoginStack({ user, signIn }) {
 	return (
-		<ImageBackground
-			source={require('../../assets/background.png')}
-			style={style.image}>
-			<Stack.Navigator
-				initialRouteName="Welcome"
-				headerMode="none"
-				screenOptions={{}}>
-				<Stack.Screen name="Welcome">
-					{props => (
-						<ImageBackground
-							source={require('../../assets/background.png')}
-							style={style.image}>
-							<WelcomeScreen {...props} user={user} />
-						</ImageBackground>
-					)}
-				</Stack.Screen>
-				<Stack.Screen name="Login">
-					{props => (
-						<ImageBackground
-							source={require('../../assets/background.png')}
-							style={style.image}>
-							<LoginScreen {...props} user={user} />
-						</ImageBackground>
-					)}
-				</Stack.Screen>
-				<Stack.Screen name="Register">
-					{props => (
-						<ImageBackground
-							source={require('../../assets/background.png')}
-							style={style.image}>
-							<RegisterScreen {...props} user={user} />
-						</ImageBackground>
-					)}
-				</Stack.Screen>
-				<Stack.Screen name="OptVerification">
-					{props => (
-						<ImageBackground
-							source={require('../../assets/background.png')}
-							style={style.image}>
-							<OptVerificationScreen {...props} user={user} signIn={signIn} />
-						</ImageBackground>
-					)}
-				</Stack.Screen>
-			</Stack.Navigator>
-		</ImageBackground>
+		<Stack.Navigator
+			initialRouteName="Welcome"
+			headerMode="none"
+			screenOptions={{}}>
+			<Stack.Screen name="Welcome">
+				{props => (
+					<ImageBackground
+						source={require('../../assets/background.png')}
+						style={style.image}>
+						<WelcomeScreen {...props} user={user} />
+					</ImageBackground>
+				)}
+			</Stack.Screen>
+			<Stack.Screen name="Login">
+				{props => (
+					<ImageBackground
+						source={require('../../assets/background.png')}
+						style={style.image}>
+						<LoginScreen {...props} user={user} />
+					</ImageBackground>
+				)}
+			</Stack.Screen>
+			<Stack.Screen name="Register">
+				{props => (
+					<ImageBackground
+						source={require('../../assets/background.png')}
+						style={style.image}>
+						<RegisterScreen {...props} user={user} />
+					</ImageBackground>
+				)}
+			</Stack.Screen>
+			<Stack.Screen name="OptVerification">
+				{props => (
+					<ImageBackground
+						source={require('../../assets/background.png')}
+						style={style.image}>
+						<OptVerificationScreen {...props} user={user} signIn={signIn} />
+					</ImageBackground>
+				)}
+			</Stack.Screen>
+		</Stack.Navigator>
 	);
 }
 

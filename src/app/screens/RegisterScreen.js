@@ -20,7 +20,11 @@ export default function RegisterScreen({ navigation, user }) {
 
 	return (
 		<>
-			<StatusBar navigation={navigation} resetHook={setNumber} />
+			<StatusBar
+				title={'Register'}
+				navigation={navigation}
+				resetHook={setNumber}
+			/>
 			<KeyboardAvoidingView style={{ flex: 1 }}>
 				<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 					<View style={style.inner}>
@@ -55,7 +59,7 @@ const style = StyleSheet.create({
 	inner: {
 		flex: 1,
 		justifyContent: 'center',
-		left: 50,
+		left: '13%',
 	},
 	number: {
 		width: 300,
@@ -64,11 +68,6 @@ const style = StyleSheet.create({
 	btnRegister: {
 		width: 300,
 		height: 60,
-	},
-	statusBar: {
-		backgroundColor: 'rgba(0, 0, 0, 0)',
-		color: '#000000',
-		position: 'absolute',
 	},
 	text: {
 		fontSize: 50,

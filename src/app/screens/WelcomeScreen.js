@@ -7,7 +7,7 @@ import WideBtn from '../components/WideBtn';
 // Welcome Screen initial screen when the app first starts
 export default function WelcomeScreen({ navigation, user }) {
 	return (
-		<View style={{ flex: 1, justifyContent: 'center', left: 50 }}>
+		<View style={{ flex: 1, justifyContent: 'center', left: '13%' }}>
 			<Text style={style.welcomeText}>Welcome!</Text>
 			<WideBtn
 				name={'login'}

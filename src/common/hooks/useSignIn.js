@@ -1,4 +1,4 @@
-import { useState, useEffet } from 'react';
+import { useState, useEffect } from 'react';
 import auth from '@react-native-firebase/auth';
 
 export default function useSignIn({}) {
@@ -16,7 +16,6 @@ export default function useSignIn({}) {
 			setConfirm(conformation);
 			console.log(conformation);
 			setIsLoading(false);
-			console.log(confirm);
 		} catch (err) {
 			console.error(err);
 			throw new Error('Signin Failed');
@@ -27,13 +26,16 @@ export default function useSignIn({}) {
 		setIsLoading(true);
 		try {
 			await confirm.confirm(code);
-			console.log(confirm);
 			setIsLoading(false);
+			const isError = false;
+			return [isError, confirm];
 		} catch (err) {
+			setIsLoading(false);
 			console.error(err);
-			throw new Error('Invalid code');
+			return 'Invalid code!';
 		}
 	};
 
+	useEffect(() => {}, []);
 	return [code, isLoading, setCode, signInwithNumber, confirmCode];
 }
