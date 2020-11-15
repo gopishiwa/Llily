@@ -17,13 +17,13 @@ export default function HomeScreen({ navigation, user }) {
 			<WideBtn
 				name={'Sign PDF'}
 				icon={'pencil'}
-				btnStyle={style.btnLogin}
+				btnStyle={style.btnSign}
 				onPress={() => navigation.navigate('PDF Screen')}
 			/>
 			<WideBtn
 				name={'Delete'}
 				icon={'trash-bin-outline'}
-				btnStyle={style.btnLogin}
+				btnStyle={style.btnDelete}
 				onPress={() => removeUser()}
 			/>
 		</View>
@@ -33,11 +33,17 @@ export default function HomeScreen({ navigation, user }) {
 const style = StyleSheet.create({
 	inner: {
 		flex: 1,
-		justifyContent: 'center',
+		justifyContent: 'flex-end',
 		left: '13%',
 	},
-	btnLogin: {
+	btnSign: {
 		width: 300,
 		height: 60,
+		marginBottom: '5%',
+	},
+	btnDelete: {
+		width: 300,
+		height: 60,
+		marginBottom: '30%',
 	},
 });

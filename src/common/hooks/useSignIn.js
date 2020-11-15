@@ -14,7 +14,6 @@ export default function useSignIn({}) {
 			}
 			const conformation = await auth().signInWithPhoneNumber(`+61${number}`);
 			setConfirm(conformation);
-			console.log(confirm);
 			setIsLoading(false);
 		} catch (err) {
 			console.error(err);

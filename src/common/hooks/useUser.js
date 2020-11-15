@@ -47,10 +47,12 @@ export default function useUser() {
 
 	const removeUser = async () => {
 		try {
+			//isUser.signOut();
 			await AsyncStorage.removeItem('key');
 			setNumber('');
 			setIsUser(false);
 		} catch (err) {
+			console.error(err);
 			throw new Error('Error during Login out');
 		}
 	};
