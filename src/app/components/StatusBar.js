@@ -8,8 +8,12 @@ export default function StatusBar({ navigation, title, subtitle, resetHook }) {
 			{navigation ? (
 				<Appbar.BackAction
 					onPress={() => {
-						resetHook('');
-						navigation.goBack();
+						if (!resetHook) {
+							navigation.goBack();
+						} else {
+							resetHook('');
+							navigation.goBack();
+						}
 					}}
 					color={'#644999'}
 				/>

@@ -15,6 +15,12 @@ export default function HomeScreen({ navigation, user }) {
 	return (
 		<View style={style.inner}>
 			<WideBtn
+				name={'Sign PDF'}
+				icon={'pencil'}
+				btnStyle={style.btnLogin}
+				onPress={() => navigation.navigate('PDF Screen')}
+			/>
+			<WideBtn
 				name={'Delete'}
 				icon={'trash-bin-outline'}
 				btnStyle={style.btnLogin}

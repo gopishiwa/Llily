@@ -3,6 +3,7 @@ import { View, StyleSheet, ImageBackground } from 'react-native';
 import { createStackNavigator, StackView } from '@react-navigation/stack';
 
 import HomeScreen from '../screens/HomeScreen';
+import PDFScreen from '../screens/PDFScreen';
 
 const Stack = createStackNavigator();
 
@@ -18,6 +19,15 @@ export default function HomeStack({ user }) {
 						source={require('../../assets/background.png')}
 						style={style.image}>
 						<HomeScreen {...props} user={user} />
+					</ImageBackground>
+				)}
+			</Stack.Screen>
+			<Stack.Screen name={'PDF Screen'}>
+				{props => (
+					<ImageBackground
+						source={require('../../assets/background.png')}
+						style={style.image}>
+						<PDFScreen {...props} user={user} />
 					</ImageBackground>
 				)}
 			</Stack.Screen>
