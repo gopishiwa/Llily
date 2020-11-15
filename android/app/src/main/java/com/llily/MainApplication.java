@@ -1,5 +1,7 @@
 package com.llily;
 
+import com.rnfs.RNFSPackage; // <------- add package for react-native-fs
+
 import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
@@ -26,6 +28,9 @@ public class MainApplication extends Application implements ReactApplication {
           List<ReactPackage> packages = new PackageList(this).getPackages();
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
+          // packages.add(new RNFSPackage()); 
+          /* remove the comment and make canOverride = true; 
+            later if any problems arrives regarding react-native-fs*/
           return packages;
         }
 
