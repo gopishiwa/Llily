@@ -79,7 +79,7 @@ const style = StyleSheet.create({
 	inner: {
 		flex: 1,
 		justifyContent: 'center',
-		left: '13%',
+		alignItems: 'center',
 	},
 	optCode: {
 		width: 300,

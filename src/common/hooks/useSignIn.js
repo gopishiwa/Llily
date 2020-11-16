@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import auth from '@react-native-firebase/auth';
 
+// Currently the firebase auth through phone is not properly setup
+// We have to use onAuthStateChanged() to complete the sign in which hasn't been setup
+
 export default function useSignIn({}) {
 	const [confirm, setConfirm] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);

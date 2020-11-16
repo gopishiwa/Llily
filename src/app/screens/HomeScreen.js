@@ -34,7 +34,7 @@ const style = StyleSheet.create({
 	inner: {
 		flex: 1,
 		justifyContent: 'flex-end',
-		left: '13%',
+		alignItems: 'center',
 	},
 	btnSign: {
 		width: 300,
