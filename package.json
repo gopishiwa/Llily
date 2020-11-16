@@ -35,6 +35,7 @@
     "react-native-screens": "^2.13.0",
     "react-native-signature-canvas": "^3.3.0",
     "react-native-vector-icons": "^7.1.0",
+    "react-native-webview": "^10.10.2",
     "rn-fetch-blob": "^0.12.0"
   },
   "devDependencies": {

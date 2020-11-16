@@ -5,9 +5,24 @@ import auth from '@react-native-firebase/auth';
 // We have to use onAuthStateChanged() to complete the sign in which hasn't been setup
 
 export default function useSignIn({}) {
+	// for firebase user state
+	// const [initializing, setInitializing] = useState(true);
+	// const [user, setUser] = useState();
+
 	const [confirm, setConfirm] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [code, setCode] = useState('');
+
+	// Handle user state changes
+	// function onAuthStateChanged(user) {
+	// 	setUser(user);
+	// 	if (initializing) setInitializing(false);
+	//   }
+
+	// const creatingSub = () => {
+	// 	const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+	// 	return subscriber; // unsubscribe on unmount
+	// }
 
 	const signInwithNumber = async number => {
 		setIsLoading(true);
@@ -38,6 +53,8 @@ export default function useSignIn({}) {
 			return 'Invalid code!';
 		}
 	};
+
+	const onAuthStateChange = async () => {};
 
 	useEffect(() => {}, []);
 	return [code, isLoading, setCode, signInwithNumber, confirmCode];

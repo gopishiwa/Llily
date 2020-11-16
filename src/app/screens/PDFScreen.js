@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
 
@@ -9,8 +9,14 @@ import WideBtn from '../components/WideBtn';
 
 import usePdf from '../../common/hooks/usePdf';
 
-export default function PDGScreen({ navigation, user }) {
+export default function PDGScreen({ route, navigation, user }) {
 	const [fileDownloaded, filePath] = usePdf('');
+
+	useEffect(() => {
+		if (route.params?.signature) {
+			console.log(route.params.signature);
+		}
+	}, [route.params?.signature]);
 
 	return (
 		<>
@@ -56,7 +62,7 @@ export default function PDGScreen({ navigation, user }) {
 							name={'Sign PDF'}
 							icon={'pencil'}
 							btnStyle={style.btnSign}
-							onPress={() => navigation.navigate('Home')}
+							onPress={() => navigation.navigate('Signature')}
 						/>
 					</>
 				)}
