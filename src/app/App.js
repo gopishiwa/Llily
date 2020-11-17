@@ -10,6 +10,8 @@ import firebase from '../common/config/firebase.config';
 
 import useUser from '../common/hooks/useUser';
 import useSignIn from '../common/hooks/useSignIn';
+import usePdf from '../common/hooks/usePdf';
+import useSignature from '../common/hooks/useSignature';
 
 export default function App() {
 	const [

@@ -4,17 +4,17 @@ import Signature from 'react-native-signature-canvas';
 
 import StatusBar from '../components/StatusBar';
 
-export default function SignatureScreen({ navigation }) {
+export default function SignatureScreen({ navigation, user }) {
 	return (
 		<>
 			<StatusBar title={'Draw Your Signature'} navigation={navigation} />
 			<View style={style.inner}>
 				<Signature
-					onOK={sig =>
+					onOK={sig => {
 						navigation.navigate('PDF Screen', {
 							signature: sig,
-						})
-					}
+						});
+					}}
 					onEmpty={() => console.log('___onEmpty')}
 					descriptionText="Sign"
 					clearText="Clear"

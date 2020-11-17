@@ -1,20 +1,33 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
-
 import Pdf from 'react-native-pdf';
+import { decode as atob, encode as btoa } from 'base-64';
 
 import StatusBar from '../components/StatusBar';
 import WideBtn from '../components/WideBtn';
 
 import usePdf from '../../common/hooks/usePdf';
+import useSignature from '../../common/hooks/useSignature';
 
 export default function PDGScreen({ route, navigation, user }) {
-	const [fileDownloaded, filePath] = usePdf('');
+	let signature = '';
+	const [
+		filePath,
+		pageWidth,
+		setPageWidth,
+		pageHeight,
+		setPageHeight,
+		isNewPdfSaved,
+		handleSingleTap,
+	] = usePdf();
+	const [isEditMode, handleSignature, signatureArrayBuffer] = useSignature();
 
 	useEffect(() => {
 		if (route.params?.signature) {
-			console.log(route.params.signature);
+			signature = route.params.signature.replace('data:image/png;base64,', '');
+			console.log(signature);
+			handleSignature(route.params.signature);
 		}
 	}, [route.params?.signature]);
 
@@ -22,19 +35,30 @@ export default function PDGScreen({ route, navigation, user }) {
 		<>
 			<StatusBar title={'Sign PDF'} navigation={navigation} />
 			<View style={style.inner}>
-				{!fileDownloaded ? (
+				{!isNewPdfSaved ? (
 					<>
-						<ActivityIndicator animating={!fileDownloaded} />
+						<ActivityIndicator animating={!isNewPdfSaved} />
 						<Text>Downloading you PDF File....</Text>
 					</>
 				) : (
 					<>
+						{!isEditMode ? (
+							<></>
+						) : (
+							<>
+								<View style={style.editText}>
+									<Text style={{ fontSize: 20 }}>*** Edit Mode ***</Text>
+									<Text>Touch where you want to place the signature</Text>
+								</View>
+							</>
+						)}
 						<Pdf
 							source={{ uri: filePath }}
 							onLoadComplete={(numberOfPages, filePath, { width, height }) => {
-								console.log(`number of pages: ${numberOfPages}`);
-								console.log(`width: ${width}`);
-								console.log(`height: ${height}`);
+								setPageWidth(width);
+								setPageHeight(height);
+								console.log('Page Width', pageWidth);
+								console.log('Page Height', pageHeight);
 							}}
 							onPageChanged={(page, numberOfPages) => {
 								console.log(`current page: ${page}`);
@@ -53,17 +77,25 @@ export default function PDGScreen({ route, navigation, user }) {
 							fitPolicy={0}
 							enablePaging={true}
 							onPageSingleTap={(page, x, y) => {
-								console.log(`tap: ${page}`);
-								console.log(`x: ${x}`);
-								console.log(`y: ${y}`);
+								if (!isEditMode) {
+									console.log(`tap: ${page}`);
+									console.log(`x: ${x}`);
+									console.log(`y: ${y}`);
+								} else {
+									handleSingleTap(page, x, y, signatureArrayBuffer);
+								}
 							}}
 						/>
-						<WideBtn
-							name={'Sign PDF'}
-							icon={'pencil'}
-							btnStyle={style.btnSign}
-							onPress={() => navigation.navigate('Signature')}
-						/>
+						{!isEditMode ? (
+							<WideBtn
+								name={'Sign PDF'}
+								icon={'pencil'}
+								btnStyle={style.btnSign}
+								onPress={() => navigation.navigate('Signature')}
+							/>
+						) : (
+							<></>
+						)}
 					</>
 				)}
 			</View>
@@ -87,5 +119,12 @@ const style = StyleSheet.create({
 		width: 300,
 		height: 60,
 		marginBottom: '20%',
+	},
+	editText: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		backgroundColor: '#FFF88C',
+		width: '100%',
 	},
 });
