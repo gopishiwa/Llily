@@ -8,10 +8,10 @@ import StatusBar from '../components/StatusBar';
 import WideBtn from '../components/WideBtn';
 
 import usePdf from '../../common/hooks/usePdf';
-import useSignature from '../../common/hooks/useSignature';
+
+const RNFS = require('react-native-fs');
 
 export default function PDGScreen({ route, navigation, user }) {
-	let signature = '';
 	const [
 		filePath,
 		pageWidth,
@@ -21,15 +21,29 @@ export default function PDGScreen({ route, navigation, user }) {
 		isNewPdfSaved,
 		handleSingleTap,
 	] = usePdf();
-	const [isEditMode, handleSignature, signatureArrayBuffer] = useSignature();
+	const [isEditMode, setIsEditMode] = useState(false);
+	const [signature, setSignature] = useState(null);
+
+	function _base64ToArrayBuffer(base64) {
+		var binary_string = atob(base64);
+		var len = binary_string.length;
+		var bytes = new Uint8Array(len);
+		for (var i = 0; i < len; i++) {
+			bytes[i] = binary_string.charCodeAt(i);
+		}
+		return bytes.buffer;
+	}
+
+	
 
 	useEffect(() => {
-		if (route.params?.signature) {
-			signature = route.params.signature.replace('data:image/png;base64,', '');
-			console.log(signature);
-			handleSignature(route.params.signature);
+		if (route.params?.signPath) {
+			setIsEditMode(true);
+			RNFS.readFile(route.params.signPath, 'base64').then(res => {
+				setSignature(_base64ToArrayBuffer(res));
+			});
 		}
-	}, [route.params?.signature]);
+	}, [route.params?.signPath]);
 
 	return (
 		<>
@@ -82,7 +96,10 @@ export default function PDGScreen({ route, navigation, user }) {
 									console.log(`x: ${x}`);
 									console.log(`y: ${y}`);
 								} else {
-									handleSingleTap(page, x, y, signatureArrayBuffer);
+									handleSingleTap(page, x, y, signature, setIsEditMode);
+									console.log(`tap: ${page}`);
+									console.log(`x: ${x}`);
+									console.log(`y: ${y}`);
 								}
 							}}
 						/>
@@ -118,6 +135,8 @@ const style = StyleSheet.create({
 		flex: 1,
 		width: 300,
 		height: 60,
+		alignItems: 'center',
+		justifyContent: 'center',
 		marginBottom: '20%',
 	},
 	editText: {
