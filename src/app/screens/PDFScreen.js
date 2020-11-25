@@ -20,9 +20,11 @@ export default function PDGScreen({ route, navigation, user }) {
 		setPageHeight,
 		isNewPdfSaved,
 		handleSingleTap,
+		isEditMode,
+		setIsEditMode,
+		signature,
+		setSignature,
 	] = usePdf();
-	const [isEditMode, setIsEditMode] = useState(false);
-	const [signature, setSignature] = useState(null);
 
 	function _base64ToArrayBuffer(base64) {
 		var binary_string = atob(base64);
@@ -33,8 +35,6 @@ export default function PDGScreen({ route, navigation, user }) {
 		}
 		return bytes.buffer;
 	}
-
-	
 
 	useEffect(() => {
 		if (route.params?.signPath) {
@@ -96,7 +96,7 @@ export default function PDGScreen({ route, navigation, user }) {
 									console.log(`x: ${x}`);
 									console.log(`y: ${y}`);
 								} else {
-									handleSingleTap(page, x, y, signature, setIsEditMode);
+									handleSingleTap(page, x, y, signature);
 									console.log(`tap: ${page}`);
 									console.log(`x: ${x}`);
 									console.log(`y: ${y}`);

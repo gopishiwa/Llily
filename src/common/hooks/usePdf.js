@@ -32,17 +32,13 @@ export default function usePdf() {
 	const [isNewPdfSaved, setIsNewPdfSaved] = useState(false);
 	const [pdfArrayBuffer, setPdfArrayBuffer] = useState(null);
 	const [pdfBase64, setPdfBase64] = useState(null);
+	const [isEditMode, setIsEditMode] = useState(false);
+	const [signature, setSignature] = useState(null);
 	const [filePath, setFilePath] = useState(
 		`${RNFS.DocumentDirectoryPath}/dummy.pdf`
 	);
 
-	const handleSingleTap = async (
-		page,
-		x,
-		y,
-		signatureArrayBuffer,
-		setIsEditMode
-	) => {
+	const handleSingleTap = async (page, x, y, signatureArrayBuffer) => {
 		setIsNewPdfSaved(false);
 		setFilePath(null);
 		const pdfDoc = await PDFDocument.load(pdfArrayBuffer);
@@ -73,7 +69,7 @@ export default function usePdf() {
 
 		const pdfBytes = await pdfDoc.save();
 		const pdfBase = _arrayBufferToBase64(pdfBytes);
-		const path = `${RNFS.DocumentDirectoryPath}/dummy_${Date.now()}.pdf`;
+		const path = `${RNFS.DocumentDirectoryPath}/dummy.pdf`;
 		console.log('path', path);
 
 		RNFS.writeFile(path, pdfBase, 'base64')
@@ -82,6 +78,7 @@ export default function usePdf() {
 				setIsNewPdfSaved(true);
 				setPdfBase64(pdfBase);
 				setIsEditMode(false);
+				setSignature(null);
 			})
 			.catch(err => {
 				setIsNewPdfSaved(true);
@@ -113,11 +110,16 @@ export default function usePdf() {
 	}
 
 	const readFile = () => {
-		RNFS.readFile(filePath, 'base64').then(contents => {
-			setPdfBase64(contents);
-			setPdfArrayBuffer(_base64ToArrayBuffer(contents));
-			setIsNewPdfSaved(true);
-		});
+		RNFS.readFile(filePath, 'base64')
+			.then(contents => {
+				setPdfBase64(contents);
+				setPdfArrayBuffer(_base64ToArrayBuffer(contents));
+				setIsNewPdfSaved(true);
+				return true;
+			})
+			.catch(err => {
+				return false;
+			});
 	};
 
 	useEffect(() => {
@@ -134,5 +136,9 @@ export default function usePdf() {
 		setPageHeight,
 		isNewPdfSaved,
 		handleSingleTap,
+		isEditMode,
+		setIsEditMode,
+		signature,
+		setSignature,
 	];
 }
