@@ -48,26 +48,23 @@ export default function usePdf() {
 
 		// The meat
 		const signatureImage = await pdfDoc.embedPng(signatureArrayBuffer);
-		signatureImage.scale(0.0);
+		const pngDims = signatureImage.scale(0.3);
 		if (Platform.OS === 'ios') {
-			console.log((pageWidth * (x - 12)) / Dimensions.get('window').width);
 			firstPage.drawImage(signatureImage, {
 				x: (pageWidth * (x - 12)) / Dimensions.get('window').width,
 				y: pageHeight - (pageHeight * (y + 12)) / 540,
-				width: 5,
-				height: 5,
+				width: pngDims.width,
+				height: pngDims.height,
 			});
 		} else {
 			firstPage.drawImage(signatureImage, {
 				x: (firstPage.getWidth() * x) / pageWidth,
 				y:
 					firstPage.getHeight() - (firstPage.getHeight() * y) / pageHeight - 25,
-				width: 5,
-				height: 5,
+				width: pngDims.width,
+				height: pngDims.height,
 			});
 		}
-		firstPage.drawImage(signatureImage);
-		// Play with these values as every project has different requirements
 
 		const pdfBytes = await pdfDoc.save();
 		const pdfBase = _arrayBufferToBase64(pdfBytes);

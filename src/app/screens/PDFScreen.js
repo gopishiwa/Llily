@@ -38,8 +38,9 @@ export default function PDGScreen({ route, navigation, user }) {
 
 	useEffect(() => {
 		if (route.params?.signPath) {
+			const signPath = route.params.signPath;
 			setIsEditMode(true);
-			RNFS.readFile(route.params.signPath, 'base64').then(res => {
+			RNFS.readFile(signPath, 'base64').then(res => {
 				setSignature(_base64ToArrayBuffer(res));
 			});
 		}
@@ -111,7 +112,11 @@ export default function PDGScreen({ route, navigation, user }) {
 								onPress={() => navigation.navigate('Signature')}
 							/>
 						) : (
-							<></>
+							<WideBtn
+								name={'cancel'}
+								btnStyle={style.btnSign}
+								onPress={() => setIsEditMode(false)}
+							/>
 						)}
 					</>
 				)}

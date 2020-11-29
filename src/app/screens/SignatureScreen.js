@@ -6,7 +6,7 @@ import StatusBar from '../components/StatusBar';
 
 const RNFS = require('react-native-fs');
 
-export default function SignatureScreen({ navigation, user }) {
+export default function SignatureScreen({ navigation, user, route }) {
 	const handleSignature = signature => {
 		const filePath = `${RNFS.CachesDirectoryPath}/sign.png`;
 		RNFS.writeFile(
