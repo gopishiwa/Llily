@@ -1,11 +1,17 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Appbar } from 'react-native-paper';
+import { View, Text, StyleSheet, Platform } from 'react-native';
+import { Appbar, Button } from 'react-native-paper';
 // StatusBar component for app
-export default function StatusBar({ navigation, title, subtitle, resetHook }) {
+export default function StatusBar({ navigation, title, resetHook, action }) {
 	return (
 		<Appbar.Header style={style.header}>
-			{navigation ? (
+			{Platform.OS === 'android' && !navigation && (
+				<Button
+					mode="text"
+					onPress={() => console.log('pressed')}
+					disabled={true}></Button>
+			)}
+			{navigation && (
 				<Appbar.BackAction
 					onPress={() => {
 						if (!resetHook) {
@@ -17,14 +23,19 @@ export default function StatusBar({ navigation, title, subtitle, resetHook }) {
 					}}
 					color={'#644999'}
 				/>
-			) : (
-				{}
 			)}
 			<Appbar.Content
-				title={title}
-				subtitle={subtitle}
-				titleStyle={style.title}
+				title={<Text style={style.title}>{title}</Text>}
+				style={{ alignItems: 'center' }}
+				subtitleStyle={{ textAlign: 'center' }}
 			/>
+			{Platform.OS === 'android' && !action && (
+				<Button
+					mode="text"
+					onPress={() => console.log('pressed')}
+					disabled={true}></Button>
+			)}
+			{action}
 		</Appbar.Header>
 	);
 }

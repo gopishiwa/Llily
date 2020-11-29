@@ -5,6 +5,7 @@ import { createStackNavigator, StackView } from '@react-navigation/stack';
 import HomeScreen from '../screens/HomeScreen';
 import PDFScreen from '../screens/PDFScreen';
 import SignatureScreen from '../screens/SignatureScreen';
+import SettingsScreen from '../screens/SettingsScreen';
 
 const Stack = createStackNavigator();
 
@@ -41,6 +42,7 @@ export default function HomeStack({ user }) {
 					</ImageBackground>
 				)}
 			</Stack.Screen>
+			<Stack.Screen name={'settings'} component={SettingsScreen} />
 		</Stack.Navigator>
 	);
 }

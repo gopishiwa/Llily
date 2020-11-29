@@ -48,7 +48,9 @@ export default function usePdf() {
 
 		// The meat
 		const signatureImage = await pdfDoc.embedPng(signatureArrayBuffer);
+		signatureImage.scale(0.0);
 		if (Platform.OS === 'ios') {
+			console.log((pageWidth * (x - 12)) / Dimensions.get('window').width);
 			firstPage.drawImage(signatureImage, {
 				x: (pageWidth * (x - 12)) / Dimensions.get('window').width,
 				y: pageHeight - (pageHeight * (y + 12)) / 540,
@@ -110,22 +112,30 @@ export default function usePdf() {
 	}
 
 	const readFile = () => {
-		RNFS.readFile(filePath, 'base64')
-			.then(contents => {
-				setPdfBase64(contents);
-				setPdfArrayBuffer(_base64ToArrayBuffer(contents));
-				setIsNewPdfSaved(true);
-				return true;
-			})
-			.catch(err => {
-				return false;
-			});
+		RNFS.readFile(filePath, 'base64').then(contents => {
+			setPdfBase64(contents);
+			setPdfArrayBuffer(_base64ToArrayBuffer(contents));
+			setIsNewPdfSaved(true);
+		});
+	};
+
+	const loadingFile = async () => {
+		if (!isNewPdfSaved) {
+			try {
+				const res = await RNFS.exists(filePath);
+				if (!res) {
+					downloadFile();
+				} else {
+					readFile();
+				}
+			} catch (err) {
+				throw new Error('File access denied');
+			}
+		}
 	};
 
 	useEffect(() => {
-		if (!isNewPdfSaved) {
-			downloadFile();
-		}
+		loadingFile();
 	}, []);
 
 	return [
