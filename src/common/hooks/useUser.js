@@ -35,8 +35,9 @@ export default function useUser() {
 			const item = await getItem();
 			if (item) {
 				const user = JSON.parse(item);
-				setNumber(user);
+				setNumber(user.phoneNumber);
 				setIsUser(user);
+				console.log(user);
 			}
 			setIsGetting(false);
 		} catch (err) {

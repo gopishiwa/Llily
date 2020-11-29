@@ -42,19 +42,17 @@ export default function useSignIn({}) {
 	const confirmCode = async () => {
 		setIsLoading(true);
 		try {
-			await confirm.confirm(code);
-			console.log(confirm);
+			const result = await confirm.confirm(code);
+			const user = result.user;
 			setIsLoading(false);
 			const isError = false;
-			return [isError, confirm];
+			return [isError, user];
 		} catch (err) {
 			setIsLoading(false);
 			console.error(err);
 			return 'Invalid code!';
 		}
 	};
-
-	const onAuthStateChange = async () => {};
 
 	useEffect(() => {}, []);
 	return [code, isLoading, setCode, signInwithNumber, confirmCode];

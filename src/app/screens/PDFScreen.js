@@ -12,6 +12,7 @@ import usePdf from '../../common/hooks/usePdf';
 const RNFS = require('react-native-fs');
 
 export default function PDGScreen({ route, navigation, user }) {
+	const { number, isUser } = user;
 	const [
 		filePath,
 		pageWidth,
@@ -97,7 +98,7 @@ export default function PDGScreen({ route, navigation, user }) {
 									console.log(`x: ${x}`);
 									console.log(`y: ${y}`);
 								} else {
-									handleSingleTap(page, x, y, signature);
+									handleSingleTap(page, x, y, signature, number);
 									console.log(`tap: ${page}`);
 									console.log(`x: ${x}`);
 									console.log(`y: ${y}`);

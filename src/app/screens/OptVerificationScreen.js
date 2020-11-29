@@ -60,10 +60,9 @@ export default function OptVerificationScreen({ navigation, user, signIn }) {
 							btnStyle={style.btnLogin}
 							disable={code && !hasLetter() && !isLoading ? false : true}
 							onPress={async () => {
-								const [isError, confirm]= await confirmCode();
+								const [isError, user] = await confirmCode();
 								if (!isError) {
-									console.log(code);
-									setUser(confirm);
+									setUser(user);
 								}
 							}}
 							loading={isLoading}

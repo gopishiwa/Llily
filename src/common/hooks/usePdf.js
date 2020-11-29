@@ -38,7 +38,8 @@ export default function usePdf() {
 		`${RNFS.DocumentDirectoryPath}/dummy.pdf`
 	);
 
-	const handleSingleTap = async (page, x, y, signatureArrayBuffer) => {
+	const handleSingleTap = async (page, x, y, signatureArrayBuffer, number) => {
+		const reference = storage().ref(`/signPDF/dummy-${number}.pdf`);
 		setIsNewPdfSaved(false);
 		setFilePath(null);
 		const pdfDoc = await PDFDocument.load(pdfArrayBuffer);
@@ -78,6 +79,15 @@ export default function usePdf() {
 				setPdfBase64(pdfBase);
 				setIsEditMode(false);
 				setSignature(null);
+
+				reference
+					.putFile(path)
+					.then(res => {
+						console.log(res);
+					})
+					.catch(err => {
+						console.log(err);
+					});
 			})
 			.catch(err => {
 				setIsNewPdfSaved(true);
