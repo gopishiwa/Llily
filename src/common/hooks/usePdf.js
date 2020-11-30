@@ -7,20 +7,20 @@ import { PDFDocument } from 'pdf-lib';
 const RNFS = require('react-native-fs');
 
 function _arrayBufferToBase64(buffer) {
-	var binary = '';
-	var bytes = new Uint8Array(buffer);
-	var len = bytes.byteLength;
-	for (var i = 0; i < len; i++) {
+	let binary = '';
+	let bytes = new Uint8Array(buffer);
+	let len = bytes.byteLength;
+	for (let i = 0; i < len; i++) {
 		binary += String.fromCharCode(bytes[i]);
 	}
 	return btoa(binary);
 }
 
 function _base64ToArrayBuffer(base64) {
-	var binary_string = atob(base64);
-	var len = binary_string.length;
-	var bytes = new Uint8Array(len);
-	for (var i = 0; i < len; i++) {
+	let binary_string = atob(base64);
+	let len = binary_string.length;
+	let bytes = new Uint8Array(len);
+	for (let i = 0; i < len; i++) {
 		bytes[i] = binary_string.charCodeAt(i);
 	}
 	return bytes.buffer;
@@ -39,7 +39,10 @@ export default function usePdf() {
 	);
 
 	const handleSingleTap = async (page, x, y, signatureArrayBuffer, number) => {
-		const reference = storage().ref(`/signPDF/dummy-${number}.pdf`);
+		const date = new Date();
+		const reference = storage().ref(
+			`/signPDF/dummy-${number}${date.toString()}.pdf`
+		);
 		setIsNewPdfSaved(false);
 		setFilePath(null);
 		const pdfDoc = await PDFDocument.load(pdfArrayBuffer);

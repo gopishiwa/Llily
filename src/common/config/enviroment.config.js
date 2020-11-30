@@ -8,7 +8,7 @@ import {
 	APP_ID,
 	MEASUREMENT_ID,
 } from '@env';
-// importing enviroment variables form .env file 
+// importing enviroment letiables form .env file
 export const apiKey = FIREBASE_API_KEY;
 export const authDomain = AUTH_DOMAIN;
 export const databaseURL = DATABASE_URL;
