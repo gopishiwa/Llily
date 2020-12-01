@@ -139,12 +139,13 @@ export default function usePdf(number) {
 	const loadingFile = async () => {
 		if (!isNewPdfSaved) {
 			try {
-				const res = await RNFS.exists(filePath);
-				if (!res) {
-					downloadFile();
-				} else {
-					readFile();
-				}
+				downloadFile();
+				// const res = await RNFS.exists(filePath);
+				// if (!res) {
+				// 	downloadFile();
+				// } else {
+				// 	readFile();
+				// }
 			} catch (err) {
 				throw new Error('File access denied');
 			}
