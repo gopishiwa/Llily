@@ -13,7 +13,6 @@ const RNFS = require('react-native-fs');
 
 export default function PDGScreen({ route, navigation, user }) {
 	const { number, isUser } = user;
-	console.log(isUser);
 	const [
 		isFile,
 		filePath,
@@ -27,7 +26,7 @@ export default function PDGScreen({ route, navigation, user }) {
 		setIsEditMode,
 		signature,
 		setSignature,
-	] = usePdf(number);
+	] = usePdf(isUser.phoneNumber);
 
 	function _base64ToArrayBuffer(base64) {
 		let binary_string = atob(base64);
@@ -99,7 +98,7 @@ export default function PDGScreen({ route, navigation, user }) {
 									console.log(`x: ${x}`);
 									console.log(`y: ${y}`);
 								} else {
-									handleSingleTap(page, x, y, signature, number);
+									handleSingleTap(page, x, y, signature);
 									console.log(`tap: ${page}`);
 									console.log(`x: ${x}`);
 									console.log(`y: ${y}`);

@@ -39,7 +39,7 @@ export default function usePdf(number) {
 		`${RNFS.DocumentDirectoryPath}/${number}.pdf`
 	);
 	// Handles the single tap on the PDF page during edit mode to embed it with the signature ONG
-	const handleSingleTap = async (page, x, y, signatureArrayBuffer, number) => {
+	const handleSingleTap = async (page, x, y, signatureArrayBuffer) => {
 		const date = new Date();
 		// Creating refrence in the firebase storage to save it in the cloud database
 		const reference = storage().ref(
