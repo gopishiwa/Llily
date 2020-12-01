@@ -5,7 +5,7 @@ import { decode as atob, encode as btoa } from 'base-64';
 import { PDFDocument } from 'pdf-lib';
 
 const RNFS = require('react-native-fs');
-
+// Cnahges the arraybuffer to base64 file encode to save it later in the system memory
 function _arrayBufferToBase64(buffer) {
 	let binary = '';
 	let bytes = new Uint8Array(buffer);
@@ -15,7 +15,7 @@ function _arrayBufferToBase64(buffer) {
 	}
 	return btoa(binary);
 }
-
+// Changes base64 files to ArrayBuffer so that PDF-lib can interact with the files
 function _base64ToArrayBuffer(base64) {
 	let binary_string = atob(base64);
 	let len = binary_string.length;
@@ -26,7 +26,8 @@ function _base64ToArrayBuffer(base64) {
 	return bytes.buffer;
 }
 
-export default function usePdf() {
+export default function usePdf(number) {
+	const [isFile, setIsFile] = useState(true);
 	const [pageWidth, setPageWidth] = useState(0);
 	const [pageHeight, setPageHeight] = useState(0);
 	const [isNewPdfSaved, setIsNewPdfSaved] = useState(false);
@@ -35,22 +36,24 @@ export default function usePdf() {
 	const [isEditMode, setIsEditMode] = useState(false);
 	const [signature, setSignature] = useState(null);
 	const [filePath, setFilePath] = useState(
-		`${RNFS.DocumentDirectoryPath}/dummy.pdf`
+		`${RNFS.DocumentDirectoryPath}/${number}.pdf`
 	);
-
+	// Handles the single tap on the PDF page during edit mode to embed it with the signature ONG
 	const handleSingleTap = async (page, x, y, signatureArrayBuffer, number) => {
 		const date = new Date();
+		// Creating refrence in the firebase storage to save it in the cloud database
 		const reference = storage().ref(
 			`/signPDF/dummy-${number}${date.toString()}.pdf`
 		);
 		setIsNewPdfSaved(false);
 		setFilePath(null);
+		// Loads the Downloaded PDF files ArrayBuffer after it is saved in the system memory
 		const pdfDoc = await PDFDocument.load(pdfArrayBuffer);
 
 		const pages = pdfDoc.getPages();
 		const firstPage = pages[page - 1];
 
-		// The meat
+		// Change the values of the axies to manuplate where the PNG file will be embedded
 		const signatureImage = await pdfDoc.embedPng(signatureArrayBuffer);
 		const pngDims = signatureImage.scale(0.3);
 		if (Platform.OS === 'ios') {
@@ -72,7 +75,7 @@ export default function usePdf() {
 
 		const pdfBytes = await pdfDoc.save();
 		const pdfBase = _arrayBufferToBase64(pdfBytes);
-		const path = `${RNFS.DocumentDirectoryPath}/dummy.pdf`;
+		const path = `${RNFS.DocumentDirectoryPath}/${number}.pdf`;
 		console.log('path', path);
 
 		RNFS.writeFile(path, pdfBase, 'base64')
@@ -82,7 +85,7 @@ export default function usePdf() {
 				setPdfBase64(pdfBase);
 				setIsEditMode(false);
 				setSignature(null);
-
+				// Uploads the PDF file to the storage with its unique name after the PNG is embeded
 				reference
 					.putFile(path)
 					.then(res => {
@@ -102,7 +105,7 @@ export default function usePdf() {
 		console.log('File Download Start');
 		try {
 			storage()
-				.ref('dummy.pdf')
+				.ref(`${number}.pdf`)
 				.getDownloadURL()
 				.then(url => {
 					console.log('URL', url);
@@ -113,9 +116,13 @@ export default function usePdf() {
 						console.log('File Downloaded', res);
 						readFile();
 					});
+				})
+				.catch(err => {
+					setIsFile(false);
+					console.log(err);
 				});
 		} catch (err) {
-			setFilePath(`${RNFS.DocumentDirectoryPath}/dummy.pdf`);
+			setFilePath(`${RNFS.DocumentDirectoryPath}/${number}.pdf`);
 			console.log(err);
 			throw new Error('Error getting URL');
 		}
@@ -145,10 +152,12 @@ export default function usePdf() {
 	};
 
 	useEffect(() => {
+		console.log(`number: ${number}`);
 		loadingFile();
 	}, []);
 
 	return [
+		isFile,
 		filePath,
 		pageWidth,
 		setPageWidth,

@@ -13,7 +13,9 @@ const RNFS = require('react-native-fs');
 
 export default function PDGScreen({ route, navigation, user }) {
 	const { number, isUser } = user;
+	console.log(isUser);
 	const [
+		isFile,
 		filePath,
 		pageWidth,
 		setPageWidth,
@@ -25,7 +27,7 @@ export default function PDGScreen({ route, navigation, user }) {
 		setIsEditMode,
 		signature,
 		setSignature,
-	] = usePdf();
+	] = usePdf(number);
 
 	function _base64ToArrayBuffer(base64) {
 		let binary_string = atob(base64);
@@ -47,10 +49,9 @@ export default function PDGScreen({ route, navigation, user }) {
 		}
 	}, [route.params?.signPath]);
 
-	return (
-		<>
-			<StatusBar title={'Sign PDF'} navigation={navigation} />
-			<View style={style.inner}>
+	const InnerPDF = () => {
+		return (
+			<>
 				{!isNewPdfSaved ? (
 					<>
 						<ActivityIndicator animating={!isNewPdfSaved} />
@@ -120,6 +121,21 @@ export default function PDGScreen({ route, navigation, user }) {
 							/>
 						)}
 					</>
+				)}
+			</>
+		);
+	};
+
+	return (
+		<>
+			<StatusBar title={'Sign PDF'} navigation={navigation} />
+			<View style={style.inner}>
+				{!isFile ? (
+					<>
+						<Text style={{ fontSize: 20 }}>No file found</Text>
+					</>
+				) : (
+					<InnerPDF />
 				)}
 			</View>
 		</>

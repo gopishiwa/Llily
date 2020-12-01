@@ -5,12 +5,12 @@ import { Appbar, Button } from 'react-native-paper';
 export default function StatusBar({ navigation, title, resetHook, action }) {
 	return (
 		<Appbar.Header style={style.header}>
-			{Platform.OS === 'android' && !navigation && (
-				<Button
-					mode="text"
-					onPress={() => console.log('pressed')}
-					disabled={true}></Button>
-			)}
+			{
+				// Empty Appbar.Action is used to create consistient space for app bar title
+				Platform.OS === 'android' && !navigation && (
+					<Appbar.Action disabled={true} />
+				)
+			}
 			{navigation && (
 				<Appbar.BackAction
 					onPress={() => {
@@ -30,10 +30,7 @@ export default function StatusBar({ navigation, title, resetHook, action }) {
 				subtitleStyle={{ textAlign: 'center' }}
 			/>
 			{Platform.OS === 'android' && !action && (
-				<Button
-					mode="text"
-					onPress={() => console.log('pressed')}
-					disabled={true}></Button>
+				<Appbar.Action disabled={true} />
 			)}
 			{action}
 		</Appbar.Header>
